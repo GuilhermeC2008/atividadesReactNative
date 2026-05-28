@@ -1,0 +1,101 @@
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  FlatList,
+  StyleSheet,
+} from 'react-native';
+
+export default function App() {
+  const [nome, setNome] = useState('');
+  const [nota, setNota] = useState('');
+  const [alunos, setAlunos] = useState([]);
+
+  const adicionarAluno = () => {
+    if (!nome || !nota) return;
+
+    setAlunos([
+      ...alunos,
+      {
+        id: Date.now().toString(),
+        nome,
+        nota: parseFloat(nota),
+      },
+    ]);
+
+    setNome('');
+    setNota('');
+  };
+
+  const notas = alunos.map((a) => a.nota);
+
+  const media =
+    notas.length > 0
+      ? (
+          notas.reduce((a, b) => a + b, 0) / notas.length
+        ).toFixed(2)
+      : 0;
+
+  const maior = notas.length > 0 ? Math.max(...notas) : 0;
+  const menor = notas.length > 0 ? Math.min(...notas) : 0;
+
+  return (
+    <View style={styles.container}>
+      <TextInput
+        style={styles.input}
+        placeholder="Nome"
+        value={nome}
+        onChangeText={setNome}
+      />
+
+      <TextInput
+        style={styles.input}
+        placeholder="Nota"
+        keyboardType="numeric"
+        value={nota}
+        onChangeText={setNota}
+      />
+
+      <TouchableOpacity style={styles.botao} onPress={adicionarAluno}>
+        <Text style={styles.textoBotao}>Cadastrar</Text>
+      </TouchableOpacity>
+
+      <Text>Média: {media}</Text>
+      <Text>Maior Nota: {maior}</Text>
+      <Text>Menor Nota: {menor}</Text>
+
+      <FlatList
+        data={alunos}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <Text>
+            {item.nome} - {item.nota}
+          </Text>
+        )}
+      />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+  },
+  input: {
+    borderWidth: 1,
+    padding: 10,
+    marginBottom: 10,
+  },
+  botao: {
+    backgroundColor: '#3498db',
+    padding: 12,
+    marginBottom: 15,
+  },
+  textoBotao: {
+    color: '#fff',
+    textAlign: 'center',
+  },
+});
