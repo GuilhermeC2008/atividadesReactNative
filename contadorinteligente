@@ -1,0 +1,59 @@
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+
+export default function App() {
+  const [contador, setContador] = useState(0);
+
+  const incrementar = () => {
+    setContador(contador + 1);
+  };
+
+  const decrementar = () => {
+    if (contador > 0) {
+      setContador(contador - 1);
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text
+        style={[
+          styles.numero,
+          contador > 10 && { color: 'red' }
+        ]}
+      >
+        {contador}
+      </Text>
+
+      <TouchableOpacity style={styles.botao} onPress={incrementar}>
+        <Text style={styles.textoBotao}>Incrementar</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.botao} onPress={decrementar}>
+        <Text style={styles.textoBotao}>Decrementar</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  numero: {
+    fontSize: 50,
+    marginBottom: 20,
+  },
+  botao: {
+    backgroundColor: '#3498db',
+    padding: 12,
+    margin: 10,
+    borderRadius: 8,
+  },
+  textoBotao: {
+    color: '#fff',
+    fontSize: 18,
+  },
+});
