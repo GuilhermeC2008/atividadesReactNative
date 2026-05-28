@@ -1,0 +1,43 @@
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+
+export default function ProductCard({
+  title,
+  price,
+  description,
+  inStock,
+}) {
+  return (
+    <View
+      style={[
+        styles.card,
+        !inStock && { opacity: 0.5 }
+      ]}
+    >
+      <Text style={styles.title}>{title}</Text>
+      <Text>R$ {price}</Text>
+      <Text>{description}</Text>
+
+      <Text style={styles.stock}>
+        {inStock ? 'Disponível' : 'Indisponível'}
+      </Text>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  card: {
+    backgroundColor: '#eee',
+    padding: 15,
+    marginBottom: 15,
+    borderRadius: 10,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  stock: {
+    marginTop: 10,
+    fontWeight: 'bold',
+  },
+});
