@@ -1,0 +1,34 @@
+import React, { useState } from 'react';
+import { View, Text, Button, StyleSheet } from 'react-native';
+
+export default function App() {
+  const [mostrar, setMostrar] = useState(false);
+
+  return (
+    <View style={styles.container}>
+      <Button
+        title={mostrar ? 'Esconder Perfil' : 'Mostrar Perfil'}
+        onPress={() => setMostrar(!mostrar)}
+      />
+
+      {mostrar && (
+        <View style={styles.perfil}>
+          <Text>Nome: Guilherme</Text>
+          <Text>Idade: 17</Text>
+          <Text>Curso: ADS</Text>
+        </View>
+      )}
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 20,
+  },
+  perfil: {
+    marginTop: 20,
+  },
+});
