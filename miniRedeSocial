@@ -1,0 +1,98 @@
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  StyleSheet,
+} from 'react-native';
+
+export default function App() {
+  const [posts, setPosts] = useState([
+    {
+      id: '1',
+      usuario: 'João',
+      texto: 'Hoje foi um ótimo dia!',
+      curtidas: 0,
+    },
+    {
+      id: '2',
+      usuario: 'Maria',
+      texto: 'Aprendendo React Native!',
+      curtidas: 0,
+    },
+  ]);
+
+  const curtir = (id) => {
+    setPosts(
+      posts.map((post) =>
+        post.id === id
+          ? { ...post, curtidas: post.curtidas + 1 }
+          : post
+      )
+    );
+  };
+
+  const descurtir = (id) => {
+    setPosts(
+      posts.map((post) =>
+        post.id === id && post.curtidas > 0
+          ? { ...post, curtidas: post.curtidas - 1 }
+          : post
+      )
+    );
+  };
+
+  return (
+    <FlatList
+      style={{ padding: 20 }}
+      data={posts}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => (
+        <View style={styles.post}>
+          <Text style={styles.usuario}>{item.usuario}</Text>
+          <Text>{item.texto}</Text>
+
+          <Text>Curtidas: {item.curtidas}</Text>
+
+          <TouchableOpacity
+            style={styles.botaoCurtir}
+            onPress={() => curtir(item.id)}
+          >
+            <Text style={{ color: '#fff' }}>Curtir</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.botaoDescurtir}
+            onPress={() => descurtir(item.id)}
+          >
+            <Text style={{ color: '#fff' }}>Descurtir</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+    />
+  );
+}
+
+const styles = StyleSheet.create({
+  post: {
+    backgroundColor: '#eee',
+    padding: 15,
+    marginBottom: 15,
+    borderRadius: 8,
+  },
+  usuario: {
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  botaoCurtir: {
+    backgroundColor: '#3498db',
+    padding: 10,
+    marginTop: 10,
+  },
+  botaoDescurtir: {
+    backgroundColor: 'red',
+    padding: 10,
+    marginTop: 10,
+  },
+});
