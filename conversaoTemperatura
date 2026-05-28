@@ -1,0 +1,70 @@
+import React, { useState } from 'react';
+import { View, TextInput, Text, StyleSheet } from 'react-native';
+
+export default function App() {
+  const [celsius, setCelsius] = useState('');
+  const [fahrenheit, setFahrenheit] = useState('');
+
+  const converterParaF = (valor) => {
+    setCelsius(valor);
+
+    const numero = parseFloat(valor);
+
+    if (isNaN(numero)) {
+      setFahrenheit('');
+      return;
+    }
+
+    const resultado = numero * 1.8 + 32;
+    setFahrenheit(resultado.toFixed(2));
+  };
+
+  const converterParaC = (valor) => {
+    setFahrenheit(valor);
+
+    const numero = parseFloat(valor);
+
+    if (isNaN(numero)) {
+      setCelsius('');
+      return;
+    }
+
+    const resultado = (numero - 32) / 1.8;
+    setCelsius(resultado.toFixed(2));
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text>Celsius</Text>
+
+      <TextInput
+        style={styles.input}
+        keyboardType="numeric"
+        value={celsius}
+        onChangeText={converterParaF}
+      />
+
+      <Text>Fahrenheit</Text>
+
+      <TextInput
+        style={styles.input}
+        keyboardType="numeric"
+        value={fahrenheit}
+        onChangeText={converterParaC}
+      />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    justifyContent: 'center',
+  },
+  input: {
+    borderWidth: 1,
+    padding: 10,
+    marginBottom: 20,
+  },
+});
