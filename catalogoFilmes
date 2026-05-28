@@ -1,0 +1,103 @@
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+} from 'react-native';
+
+export default function App() {
+  const [categoria, setCategoria] = useState('Todos');
+
+  const filmes = [
+    {
+      id: '1',
+      nome: 'Vingadores',
+      nota: 9,
+      categoria: 'Ação',
+      imagem:
+        'https://upload.wikimedia.org/wikipedia/pt/f/f9/TheAvengers2012.jpg',
+    },
+    {
+      id: '2',
+      nome: 'Titanic',
+      nota: 8,
+      categoria: 'Romance',
+      imagem:
+        'https://upload.wikimedia.org/wikipedia/pt/2/22/Titanic_poster.jpg',
+    },
+  ];
+
+  const filtrados =
+    categoria === 'Todos'
+      ? filmes
+      : filmes.filter((f) => f.categoria === categoria);
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.filtros}>
+        <TouchableOpacity onPress={() => setCategoria('Todos')}>
+          <Text>Todos</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => setCategoria('Ação')}>
+          <Text>Ação</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => setCategoria('Romance')}>
+          <Text>Romance</Text>
+        </TouchableOpacity>
+      </View>
+
+      <FlatList
+        data={filtrados}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <View
+            style={[
+              styles.card,
+              item.nota > 8 && styles.destaque,
+            ]}
+          >
+            <Image
+              source={{ uri: item.imagem }}
+              style={styles.imagem}
+            />
+
+            <Text>{item.nome}</Text>
+            <Text>Nota: {item.nota}</Text>
+            <Text>{item.categoria}</Text>
+          </View>
+        )}
+      />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+  },
+  filtros: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: 20,
+  },
+  card: {
+    backgroundColor: '#eee',
+    padding: 15,
+    marginBottom: 15,
+  },
+  destaque: {
+    borderWidth: 3,
+    borderColor: 'gold',
+  },
+  imagem: {
+    width: 100,
+    height: 150,
+    marginBottom: 10,
+  },
+});
